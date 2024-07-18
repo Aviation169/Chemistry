@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEET Aspirants Hub -Equilibrium</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.1.2/aframe/build/aframe-ar.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+          --primary-color: #4CAF50;
+          --primary-light: #81C784;
+          --primary-dark: #388E3C;
+          --secondary-color: #2196F3;
+          --secondary-light: #64B5F6;
+          --secondary-dark: #1976D2;
+          --accent-color: #FFC107;
+          --text-color: #333;
+          --text-light: #757575;
+          --bg-color: #f4f7f9;
+          --card-bg: #fff;
+          --shadow-color: rgba(0, 0, 0, 0.1);
+          --transition-speed: 0.3s;
+          --border-radius: 12px;
+          --spacing-unit: 1rem;
+          --max-width: 1400px;
+        }
+        
+        *, *::before, *::after {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+        
+        body {
+          font-family: 'Poppins', sans-serif;
+          line-height: 1.6;
+          color: var(--text-color);
+          background-color: var(--bg-color);
+          font-size: 16px;
+          overflow-x: hidden;
+        }
+        
+        .container {
+          width: 100%;
+          max-width: var(--max-width);
+          margin: 0 auto;
+          padding: 0 var(--spacing-unit);
+        }
+        
+        header {
+          background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+          color: white;
+          padding: calc(var(--spacing-unit) * 3) 0;
+          position: relative;
+          overflow: hidden;
+          clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+        
+        header::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 80%);
+          transform: rotate(30deg);
+          animation: headerShine 10s linear infinite;
+        }
+        
+        @keyframes headerShine {
+          0% { transform: rotate(30deg) translateY(0); }
+          100% { transform: rotate(30deg) translateY(50%); }
+        }
+        
+        header h1 {
+          font-size: clamp(2.5rem, 5vw, 4rem);
+          margin-bottom: calc(var(--spacing-unit) / 2);
+          position: relative;
+          z-index: 1;
+          text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        nav ul {
+          list-style: none;
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          position: relative;
+          z-index: 1;
+        }
+        
+        nav ul li {
+          margin: 0 calc(var(--spacing-unit) / 2);
+        }
+        
+        nav ul li a {
+          color: white;
+          text-decoration: none;
+          font-size: 1.1rem;
+          transition: color var(--transition-speed) ease;
+          position: relative;
+          padding: 0.5rem 1rem;
+          overflow: hidden;
+        }
+        
+        nav ul li a::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: rgba(255,255,255,0.2);
+          transition: left var(--transition-speed) ease;
+        }
+        
+        nav ul li a:hover::before {
+          left: 100%;
+        }
+        
+        main {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: calc(var(--spacing-unit) * 2);
+          padding: calc(var(--spacing-unit) * 4) 0;
+        }
+        
+        section {
+          background-color: var(--card-bg);
+          border-radius: var(--border-radius);
+          box-shadow: 0 10px 20px var(--shadow-color);
+          padding: calc(var(--spacing-unit) * 2);
+          transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+          overflow: hidden;
+          position: relative;
+        }
+        
+        section::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+          opacity: 0;
+          transition: opacity var(--transition-speed) ease;
+        }
+        
+        section:hover {
+          transform: translateY(-10px) scale(1.02);
+          box-shadow: 0 15px 30px var(--shadow-color);
+        }
+        
+        section:hover::before {
+          opacity: 0.1;
+        }
+        
+        .video-container {
+          position: relative;
+          width: 100%;
+          padding-top: 56.25%;
+          margin-bottom: calc(var(--spacing-unit) * 1.5);
+          border-radius: var(--border-radius);
+          overflow: hidden;
+          box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .video-container video {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        
+        .vr-button {
+          display: inline-block;
+          background-color: var(--accent-color);
+          color: var(--text-color);
+          padding: calc(var(--spacing-unit) / 2) var(--spacing-unit);
+          border: none;
+          border-radius: calc(var(--border-radius) / 2);
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all var(--transition-speed) ease;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .vr-button::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0;
+          height: 0;
+          background-color: rgba(255,255,255,0.3);
+          border-radius: 50%;
+          transform: translate(-50%, -50%);
+          transition: width 0.6s ease, height 0.6s ease;
+        }
+        
+        .vr-button:hover {
+          transform: scale(1.05);
+          box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .vr-button:hover::before {
+          width: 300px;
+          height: 300px;
+        }
+        
+        .quiz-container {
+          background-color: var(--card-bg);
+          border-radius: var(--border-radius);
+          box-shadow: 0 10px 20px var(--shadow-color);
+          padding: calc(var(--spacing-unit) * 2);
+        }
+        
+        .mcq-card {
+          background-color: #f9f9f9;
+          border-radius: var(--border-radius);
+          padding: calc(var(--spacing-unit) * 1.5);
+          margin-bottom: calc(var(--spacing-unit) * 1.5);
+          transition: all var(--transition-speed) ease;
+          border-left: 5px solid var(--primary-color);
+        }
+        
+        .mcq-card:hover {
+          box-shadow: 0 8px 16px var(--shadow-color);
+          transform: translateY(-5px);
+        }
+        
+        .mcq-question {
+          font-size: 1.3rem;
+          margin-bottom: var(--spacing-unit);
+          color: var(--text-color);
+          font-weight: 600;
+        }
+        
+        .mcq-options {
+          list-style-type: none;
+        }
+        
+        .mcq-option {
+          background-color: var(--card-bg);
+          border: 2px solid var(--primary-light);
+          border-radius: calc(var(--border-radius) / 2);
+          padding: calc(var(--spacing-unit) / 2) calc(var(--spacing-unit) * 0.75);
+          margin-bottom: calc(var(--spacing-unit) / 2);
+          cursor: pointer;
+          transition: all var(--transition-speed) ease;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .mcq-option::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+          transition: left 0.5s ease;
+        }
+        
+        .mcq-option:hover {
+          background-color: var(--primary-light);
+          color: white;
+          transform: translateX(5px);
+        }
+        
+        .mcq-option:hover::before {
+          left: 100%;
+        }
+        
+        #refresh-btn {
+          background-color: var(--secondary-color);
+          color: white;
+          border: none;
+          border-radius: calc(var(--border-radius) / 2);
+          padding: calc(var(--spacing-unit) / 2) var(--spacing-unit);
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all var(--transition-speed) ease;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        #refresh-btn::after {
+          content: '↻';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          opacity: 0;
+          transition: opacity var(--transition-speed) ease;
+        }
+        
+        #refresh-btn:hover {
+          background-color: var(--secondary-dark);
+          transform: scale(1.05);
+          padding-right: calc(var(--spacing-unit) * 2);
+        }
+        
+        #refresh-btn:hover::after {
+          opacity: 1;
+        }
+        
+        #score-card {
+          background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+          border-radius: var(--border-radius);
+          padding: var(--spacing-unit);
+          margin-top: calc(var(--spacing-unit) * 1.5);
+          transition: all var(--transition-speed) ease;
+          color: white;
+          box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        #score-card:hover {
+          transform: scale(1.03);
+        }
+        
+        #score-card p {
+          margin-bottom: calc(var(--spacing-unit) / 2);
+          font-size: 1.1rem;
+        }
+        
+        #score-card span {
+          font-weight: bold;
+          color: var(--accent-color);
+          text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        footer {
+          background-color: #333;
+          color: white;
+          text-align: center;
+          padding: calc(var(--spacing-unit) * 2) 0;
+          margin-top: calc(var(--spacing-unit) * 4);
+          position: relative;
+          overflow: hidden;
+        }
+        
+        footer::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 80%);
+          animation: footerShine 15s linear infinite;
+        }
+        
+        @keyframes footerShine {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+          :root {
+            --spacing-unit: 0.875rem;
+          }
+        
+          header {
+            clip-path: none;
+          }
+        
+          header h1 {
+            font-size: 2.5rem;
+          }
+        
+          nav ul {
+            flex-direction: column;
+            align-items: center;
+          }
+        
+          nav ul li {
+            margin: calc(var(--spacing-unit) / 2) 0;
+          }
+        
+          .mcq-question {
+            font-size: 1.2rem;
+          }
+        
+          main {
+            grid-template-columns: 1fr;
+          }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
+        }
+        
+        .fade-in {
+          animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .ar-video-container {
+          position: relative;
+          width: 100%;
+          padding-top: 56.25%;
+          margin-bottom: calc(var(--spacing-unit) * 1.5);
+          border-radius: var(--border-radius);
+          overflow: hidden;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .ar-video-container iframe {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border: none;
+        }
+        
+        .ar-controls {
+          display: flex;
+          justify-content: center;
+          margin-top: var(--spacing-unit);
+        }
+        
+        .ar-controls button {
+          margin: 0 calc(var(--spacing-unit) / 2);
+          padding: calc(var(--spacing-unit) / 2) var(--spacing-unit);
+          font-size: 1rem;
+          cursor: pointer;
+          border: none;
+          background-color: var(--primary-color);
+          color: white;
+          border-radius: calc(var(--border-radius) / 2);
+          transition: all var(--transition-speed) ease;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .ar-controls button::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0;
+          height: 0;
+          background-color: rgba(255,255,255,0.3);
+          border-radius: 50%;
+          transform: translate(-50%, -50%);
+          transition: width 0.6s ease, height 0.6s ease;
+        }
+        
+        .ar-controls button:hover {
+          background-color: var(--primary-dark);
+          transform: scale(1.05);
+        }
+        
+        .ar-controls button:hover::before {
+          width: 300px;
+          height: 300px;
+        }
+        
+        .ar-minimize {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          z-index: 1000;
+        }
+        
+        .ar-minimize button {
+          padding: calc(var(--spacing-unit) / 2) var(--spacing-unit);
+          font-size: 1rem;
+          cursor: pointer;
+          border: none;
+          background-color: var(--secondary-color);
+          color: white;
+          border-radius: calc(var(--border-radius) / 2);
+          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          transition: all var(--transition-speed) ease;
+        }
+        
+        .ar-minimize button:hover {
+          background-color: var(--secondary-dark);
+          transform: scale(1.05);
+        }
+        
+        .progress-bar {
+          width: 100%;
+          height: 20px;
+          background-color: #e0e0e0;
+          border-radius: 10px;
+          margin-top: var(--spacing-unit);
+          overflow: hidden;
+        }
+        
+        .progress {
+          height: 100%;
+          background-color: var(--primary-color);
+          width: 0;
+          transition: width 0.5s ease;
+        }
+        
+        .tooltip {
+          position: relative;
+          display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+          visibility: hidden;
+          width: 120px;
+          background-color: #555;
+          color: #fff;
+          text-align: center;
+          border-radius: 6px;
+          padding: 5px 0;
+          position: absolute;
+          z-index: 1;
+          bottom: 125%;
+          left: 50%;
+          margin-left: -60px;
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+        
+        .tooltip:hover .tooltiptext {
+          visibility: visible;
+          opacity: 1;
+        }
+        
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 1000;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          overflow: auto;
+          background-color: rgba(0,0,0,0.4);
+        }
+        
+        .modal-content {
+          background-color: var(--card-bg);
+          margin: 15% auto;
+          padding: calc(var(--spacing-unit) * 2);
+          border: 1px solid #888;
+          width: 80%;
+          max-width: 600px;
+          border-radius: var(--border-radius);
+          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .close {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+          color: #000;
+          text-decoration: none;
+          cursor: pointer;
+        }
+        
+        @media (max-width: 480px) {
+          .ar-controls {
+            flex-direction: column;
+          }
+        
+          .ar-controls button {
+            margin: calc(var(--spacing-unit) / 2) 0;
+          }
+        
+          .modal-content {
+            width: 95%;
+            margin: 10% auto;
+          }
+        }
+        
+        .scroll-to-top {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          background-color: var(--primary-color);
+          color: white;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          opacity: 0;
+          transition: opacity var(--transition-speed) ease;
+        }
+        
+        .scroll-to-top.visible {
+          opacity: 1;
+        }
+        
+        .scroll-to-top:hover {
+          background-color: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to NEET Aspirants Hub</h1>
+        <nav>
+            <ul>
+                <li><a href="/Physics/physics.html">Physics</a></li>
+                <li><a href="/chemistry/chemistry.html">Chemistry</a></li>
+                <li><a href="/Biology/biology.html">Biology</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Equilibrium</h2>
+            <div class="video-container">
+                <video controls>
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <p>In chemistry, equilibrium refers to a state where the rates of forward and reverse reactions are equal, resulting in no net change in the concentrations of reactants and products over time. This dynamic balance is crucial in understanding chemical reactions and their conditions, influencing everything from industrial processes to biological systems.</p>
+            <button class="vr-button" onclick="convertToAR()">Experience in AR</button>
+        </section>
+        <section class="quiz-container">
+            <h2>Quiz</h2>
+            <div id="quiz">
+                <!-- Quiz questions will be generated dynamically here -->
+            </div>
+            <button id="refresh-btn">Refresh Quiz</button>
+            <div id="score-card"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 NEET Aspirants Hub</p>
+    </footer>
+    <script>
+        var totalQuestions = 0;
+        var correctAnswers = 0;
+        var incorrectAnswers = 0;
+        var quizPool = [
+    {
+        question: "What is chemical equilibrium?",
+        options: ["A state where reactants and products have equal concentrations", "A state where only reactants are present", "A state where reactions stop completely", "A state where products are absent"],
+        correctAnswer: "A state where reactants and products have equal concentrations"
+    },
+    {
+        question: "What does Le Chatelier's Principle state?",
+        options: ["The total energy of a system is constant", "The entropy of an isolated system always increases", "If a system at equilibrium is disturbed, it will shift its equilibrium position to counteract the disturbance", "The energy of the universe is constant"],
+        correctAnswer: "If a system at equilibrium is disturbed, it will shift its equilibrium position to counteract the disturbance"
+    },
+    {
+        question: "What is the expression for the equilibrium constant Kc?",
+        options: ["[Products]/[Reactants]", "[Reactants]/[Products]", "[Products] - [Reactants]", "[Reactants] + [Products]"],
+        correctAnswer: "[Products]/[Reactants]"
+    },
+    {
+        question: "What is the relationship between the equilibrium constant Kc and Gibbs free energy (ΔG)?",
+        options: ["ΔG = -RT ln(Kc)", "ΔG = RT ln(Kc)", "ΔG = -RT/Kc", "ΔG = RT/Kc"],
+        correctAnswer: "ΔG = -RT ln(Kc)"
+    },
+    {
+        question: "In which direction will a reaction proceed if Q < Kc?",
+        options: ["Forward to form more products", "Reverse to form more reactants", "It will stop", "It will proceed in both directions equally"],
+        correctAnswer: "Forward to form more products"
+    },
+    {
+        question: "What is the equilibrium constant Kc for the reaction: N2(g) + 3H2(g) ⇌ 2NH3(g)?",
+        options: ["[NH3]^2 / [N2] [H2]^3", "[N2] [H2]^3 / [NH3]^2", "[N2]^3 [H2] / [NH3]^2", "[NH3] / [N2] [H2]^3"],
+        correctAnswer: "[NH3]^2 / [N2] [H2]^3"
+    },
+    {
+        question: "What is the unit of equilibrium constant Kc?",
+        options: ["Molarity (M)", "Liters (L)", "No unit", "Molarity^-1"],
+        correctAnswer: "No unit"
+    },
+    {
+        question: "What is the equilibrium constant Kp for a reaction involving gases?",
+        options: ["Partial pressures of products / Partial pressures of reactants", "Molar concentrations of products / Molar concentrations of reactants", "Total pressures of products / Total pressures of reactants", "Kp is not applicable for reactions involving gases"],
+        correctAnswer: "Partial pressures of products / Partial pressures of reactants"
+    },
+    {
+        question: "What happens to equilibrium constant Kc when the temperature increases?",
+        options: ["It decreases", "It increases", "It remains unchanged", "It depends on the reaction"],
+        correctAnswer: "It depends on the reaction"
+    },
+    {
+        question: "What is the condition for a reaction to be at equilibrium?",
+        options: ["Rate of forward reaction = Rate of backward reaction", "Rate of forward reaction > Rate of backward reaction", "Rate of forward reaction < Rate of backward reaction", "No reaction occurs"],
+        correctAnswer: "Rate of forward reaction = Rate of backward reaction"
+    },
+    {
+        question: "What is a heterogeneous equilibrium?",
+        options: ["A state where all substances are in the same phase", "A state where reactants and products are in different phases", "A state where no reaction occurs", "A state where only reactants are present"],
+        correctAnswer: "A state where reactants and products are in different phases"
+    },
+    {
+        question: "What does the term 'dynamic equilibrium' mean?",
+        options: ["A state where reactions stop completely", "A state where reactants and products are not in equilibrium", "A state where reactants and products constantly interconvert at equal rates", "A state where only reactants are present"],
+        correctAnswer: "A state where reactants and products constantly interconvert at equal rates"
+    },
+    {
+        question: "What is the effect of increasing pressure on an equilibrium involving gases?",
+        options: ["Shifts the equilibrium to the side with fewer moles of gas", "Shifts the equilibrium to the side with more moles of gas", "No effect on equilibrium", "Stops the reaction"],
+        correctAnswer: "Shifts the equilibrium to the side with fewer moles of gas"
+    },
+    {
+        question: "What is the effect of adding a catalyst to a reaction at equilibrium?",
+        options: ["Increases the rate of the forward reaction only", "Increases the rate of the backward reaction only", "Increases the rate of both forward and backward reactions equally", "No effect on equilibrium"],
+        correctAnswer: "No effect on equilibrium"
+    },
+    {
+        question: "What is the equilibrium constant expression for the reaction: 2A + B ⇌ C?",
+        options: ["[C] / [A]^2 [B]", "[A]^2 [B] / [C]", "[C] / [A] [B]", "[A] [B] / [C]"],
+        correctAnswer: "[C] / [A]^2 [B]"
+    },
+    {
+        question: "What does the term 'solubility product constant' (Ksp) represent?",
+        options: ["The product of molar solubilities of reactants", "The product of molar solubilities of products", "The equilibrium constant for the dissolution of a solid in water", "The equilibrium constant for the dissociation of a weak electrolyte"],
+        correctAnswer: "The product of molar solubilities of products"
+    },
+    {
+        question: "What is the unit of solubility product constant (Ksp)?",
+        options: ["Molarity (M)", "Liters (L)", "No unit", "Molarity^-1"],
+        correctAnswer: "No unit"
+    },
+    {
+        question: "What happens to solubility of a solid in water when its Ksp value is exceeded?",
+        options: ["It precipitates", "It dissolves more", "No change in solubility", "It becomes more soluble"],
+        correctAnswer: "It precipitates"
+    },
+    {
+        question: "What is the common ion effect in solubility equilibria?",
+        options: ["The decrease in solubility of a salt in the presence of a common ion", "The increase in solubility of a salt in the presence of a common ion", "The formation of a complex ion", "The formation of a double salt"],
+        correctAnswer: "The decrease in solubility of a salt in the presence of a common ion"
+    },
+    {
+        question: "What is the pH at the equivalence point of a strong acid - strong base titration?",
+        options: ["7", "Less than 7", "Greater than 7", "Depends on the specific acid and base"],
+        correctAnswer: "7"
+    },
+    {
+        question: "What is the pH at the equivalence point of a weak acid - strong base titration?",
+        options: ["7", "Less than 7", "Greater than 7", "Depends on the specific acid and base"],
+        correctAnswer: "Greater than 7"
+    },
+    {
+        question: "What is the pH at the equivalence point of a strong acid - weak base titration?",
+        options: ["7", "Less than 7", "Greater than 7", "Depends on the specific acid and base"],
+        correctAnswer: "Less than 7"
+    },
+    {
+        question: "What does the term 'buffer solution' refer to?",
+        options: ["A solution that resists changes in pH upon addition of small amounts of acid or base", "A solution that changes color at a specific pH", "A solution that is basic in nature", "A solution that is acidic in nature"],
+        correctAnswer: "A solution that resists changes in pH upon addition of small amounts of acid or base"
+    },
+    {
+        question: "What is the Henderson-Hasselbalch equation used for?",
+        options: ["To calculate the pH of a buffer solution", "To calculate the solubility product constant", "To calculate the equilibrium constant", "To calculate the standard Gibbs free energy change"],
+        correctAnswer: "To calculate the pH of a buffer solution"
+    },
+    {
+        question: "What is the pH of a buffer solution containing equal concentrations of a weak acid (HA) and its conjugate base (A⁻)?",
+        options: ["pKa of HA", "pKb of A⁻", "pH = 7", "pH = 14"],
+        correctAnswer: "pKa of HA"
+    },
+    {
+        question: "What is the term for the point in a titration where the amount of added titrant is stoichiometrically equivalent to the analyte?",
+        options: ["Equivalence point", "Endpoint", "Indicators", "Buffer point"],
+        correctAnswer: "Equivalence point"
+    },
+    {
+        question: "What is the term for a substance that changes color at the equivalence point of a titration?",
+        options: ["Indicator", "Buffer", "Titration point", "Equilibrium point"],
+        correctAnswer: "Indicator"
+    },
+    {
+        question: "What is the solubility product constant (Ksp) for BaSO4 if its solubility is 1.5 × 10⁻⁵ M?",
+        options: ["1.5 × 10⁻⁵", "3.75 × 10⁻¹⁵", "1.5 × 10¹⁵", "3.75 × 10¹⁵"],
+        correctAnswer: "3.75 × 10⁻¹⁰"
+    },
+    {
+        question: "What is the term for a reaction where the forward and reverse reactions occur at equal rates?",
+        options: ["Dynamic equilibrium", "Static equilibrium", "Thermodynamic equilibrium", "Chemical equilibrium"],
+        correctAnswer: "Dynamic equilibrium"
+    },
+    {
+        question: "What is the term for a system where no change occurs over time?",
+        options: ["Static equilibrium", "Dynamic equilibrium", "Chemical equilibrium", "Physical equilibrium"],
+        correctAnswer: "Static equilibrium"
+    },
+    {
+        question: "What is the term for the ratio of the rate constant of the forward reaction to the rate constant of the reverse reaction at a given temperature?",
+        options: ["Equilibrium constant", "Rate constant", "Reaction quotient", "Reaction equilibrium"],
+        correctAnswer: "Equilibrium constant"
+    },
+    {
+        question: "What is the term for the process where a system at equilibrium is disturbed and shifts to a new equilibrium position?",
+        options: ["Le Chatelier's Principle", "Gibbs free energy", "Reaction quotient", "Reaction rate"],
+        correctAnswer: "Le Chatelier's Principle"
+    },
+    {
+        question: "What is the effect of decreasing temperature on an exothermic reaction at equilibrium?",
+        options: ["Shifts equilibrium to the right", "Shifts equilibrium to the left", "No effect on equilibrium", "Stops the reaction"],
+        correctAnswer: "Shifts equilibrium to the left"
+    },
+    {
+        question: "What is the term for a substance that can accept a proton?",
+        options: ["Base", "Acid", "Conjugate acid", "Conjugate base"],
+        correctAnswer: "Base"
+    },
+    {
+        question: "What is the term for a substance that can donate a proton?",
+        options: ["Acid", "Base", "Conjugate acid", "Conjugate base"],
+        correctAnswer: "Acid"
+    },
+    {
+        question: "What is the pH of a solution with [H+] = 1 × 10⁻⁷ M?",
+        options: ["7", "1", "14", "0"],
+        correctAnswer: "7"
+    },
+    {
+        question: "What is the pH of a solution with [OH⁻] = 1 × 10⁻⁷ M?",
+        options: ["7", "1", "14", "0"],
+        correctAnswer: "7"
+    },
+    {
+        question: "What is the term for the product of hydrogen ion concentration ([H+]) and hydroxide ion concentration ([OH⁻]) in water?",
+        options: ["Ionic product of water", "Solubility product", "Equilibrium constant", "Acid dissociation constant"],
+        correctAnswer: "Ionic product of water"
+    },
+    {
+        question: "What is the term for the logarithmic measure of acidity?",
+        options: ["pH", "pKa", "pOH", "Ka"],
+        correctAnswer: "pH"
+    },
+    {
+        question: "What is the term for the negative logarithm of the acid dissociation constant?",
+        options: ["pH", "pKa", "pOH", "Ka"],
+        correctAnswer: "pKa"
+    },
+    {
+        question: "What is the term for the negative logarithm of the hydroxide ion concentration?",
+        options: ["pH", "pKa", "pOH", "Ka"],
+        correctAnswer: "pOH"
+    },
+    {
+        question: "What is the term for the acid dissociation constant?",
+        options: ["Ka", "pH", "pKa", "pOH"],
+        correctAnswer: "Ka"
+    },
+    {
+        question: "What is the pH of a solution with [H+] = 1 × 10⁻¹ M?",
+        options: ["1", "7", "10", "0"],
+        correctAnswer: "1"
+    },
+    {
+        question: "What is the pH of a solution with [OH⁻] = 1 × 10⁻¹² M?",
+        options: ["2", "7", "12", "0"],
+        correctAnswer: "12"
+    },
+    {
+        question: "What is the pH of a 0.1 M HCl solution?",
+        options: ["1", "7", "10", "0"],
+        correctAnswer: "1"
+    },
+    {
+        question: "What is the pH of a 0.1 M NaOH solution?",
+        options: ["1", "7", "10", "0"],
+        correctAnswer: "14"
+    },
+    {
+        question: "What is the pH of a solution with [H+] = 1 × 10⁻¹⁰ M?",
+        options: ["10", "7", "1", "0"],
+        correctAnswer: "10"
+    },
+    {
+        question: "What is the pH of a solution with [OH⁻] = 1 × 10⁻³ M?",
+        options: ["11", "7", "3", "0"],
+        correctAnswer: "11"
+    },
+    {
+        question: "What is the pH of a solution with [H+] = 1 × 10⁻⁵ M?",
+        options: ["5", "7", "9", "0"],
+        correctAnswer: "5"
+    },
+    {
+        question: "What is the pH of a solution with [OH⁻] = 1 × 10⁻⁹ M?",
+        options: ["5", "7", "9", "0"],
+        correctAnswer: "9"
+    }
+];
+
+
+        // Function to shuffle the options array
+        function shuffleOptions(options) {
+            for (var i = options.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = options[i];
+                options[i] = options[j];
+                options[j] = temp;
+            }
+            return options;
+        }
+    
+        // Shuffle options for each quiz question
+        quizPool.forEach(function (quiz) {
+            quiz.options = shuffleOptions(quiz.options);
+        });
+    
+        // Generate quiz dynamically
+        function generateQuiz() {
+            totalQuestions = 0;
+            correctAnswers = 0;
+            incorrectAnswers = 0;
+            updateScoreCard();
+    
+            var remainingQuestions = quizPool.slice(); // Copy the original pool of questions
+            var selectedQuestions = [];
+    
+            // Select 10 random questions from the pool
+            for (var i = 0; i < 10; i++) {
+                var randomIndex = Math.floor(Math.random() * remainingQuestions.length);
+                selectedQuestions.push(remainingQuestions[randomIndex]);
+                remainingQuestions.splice(randomIndex, 1); // Remove the selected question from the remaining questions
+            }
+    
+            var quizHTML = "";
+            for (var i = 0; i < selectedQuestions.length; i++) {
+                quizHTML += "<div class='mcq-card'>";
+                quizHTML += "<h3 class='mcq-question'>" + (i + 1) + ". " + selectedQuestions[i].question + "</h3>";
+                quizHTML += "<ul class='mcq-options'>";
+                for (var j = 0; j < selectedQuestions[i].options.length; j++) {
+                    quizHTML += "<li class='mcq-option' onclick='checkAnswer(this, \"" + selectedQuestions[i].correctAnswer + "\")'>" + String.fromCharCode(65 + j) + ". " + selectedQuestions[i].options[j] + "</li>";
+                }
+                quizHTML += "</ul>";
+                quizHTML += "</div>";
+            }
+    
+            document.getElementById("quiz").innerHTML = quizHTML;
+        }
+    
+        // Check user's answer
+        function checkAnswer(option, correctAnswer) {
+            var options = option.parentNode.children;
+            for (var i = 0; i < options.length; i++) {
+                options[i].style.pointerEvents = "none";
+            }
+    
+            if (option.innerText.substr(3) === correctAnswer) {
+                option.style.backgroundColor = "#7FFF7F"; // Correct answer
+                correctAnswers++;
+            } else {
+                option.style.backgroundColor = "#FF7F7F"; // Incorrect answer
+                incorrectAnswers++;
+                for (var i = 0; i < options.length; i++) {
+                    if (options[i].innerText.substr(3) === correctAnswer) {
+                        options[i].style.backgroundColor = "#7FFF7F"; // Highlight correct answer
+                    }
+                }
+            }
+            totalQuestions++;
+            updateScoreCard();
+        }
+    
+        // Update score card
+        function updateScoreCard() {
+            var scoreCardHTML = "<p><span>Total Questions:</span> " + totalQuestions + "</p>";
+            scoreCardHTML += "<p><span>Correct Answers:</span> " + correctAnswers + "</p>";
+            scoreCardHTML += "<p><span>Incorrect Answers:</span> " + incorrectAnswers + "</p>";
+            document.getElementById("score-card").innerHTML = scoreCardHTML;
+        }
+    
+        // Load quiz on page load
+        window.onload = function () {
+            generateQuiz();
+            setInterval(function() {
+                generateQuiz();
+            }, 20000);
+        };
+    
+        // Refresh quiz
+        document.getElementById("refresh-btn").addEventListener("click", function () {
+            generateQuiz();
+        });
+    
+        // Convert video to AR
+        function convertToAR() {
+            // Replace the video with an AR-enabled version using AR.js or any other AR framework
+            var videoContainer = document.querySelector('.video-container');
+            videoContainer.innerHTML = '<div class="ar-video-container"><a-scene embedded arjs="sourceType: video; sourceUrl: CBSE Class 11 __ Physics __ Laws of Motion __ Animation __ in English @digitalguruji3147.mp4; patternRatio: custom; patternRatioCustom: 0.5;"><a-video src="CBSE Class 11 __ Physics __ Laws of Motion __ Animation __ in English @digitalguruji3147.mp4" width="16" height="9" rotation="-90 0 0"></a-video><div class="ar-controls"><button onclick="minimizeVideo()">Minimize</button><button onclick="pauseVideo()">Pause</button><button onclick="playVideo()">Play</button></div></a-scene></div>';
+        }
+    
+        // Minimize video function
+        function minimizeVideo() {
+            var arVideoContainer = document.querySelector('.ar-video-container');
+            var arControls = document.querySelector('.ar-controls');
+            arVideoContainer.style.display = 'none';
+            var minimizeButton = document.createElement('div');
+            minimizeButton.className = 'ar-minimize';
+            minimizeButton.innerHTML = '<button onclick="restoreVideo()">Restore</button>';
+            document.body.appendChild(minimizeButton);
+            arControls.style.display = 'none';
+        }
+    
+        // Restore video function
+        function restoreVideo() {
+            var arVideoContainer = document.querySelector('.ar-video-container');
+            var arControls = document.querySelector('.ar-controls');
+            var minimizeButton = document.querySelector('.ar-minimize');
+            arVideoContainer.style.display = 'block';
+            minimizeButton.parentNode.removeChild(minimizeButton);
+            arControls.style.display = 'block';
+        }
+    
+        // Pause video function
+        function pauseVideo() {
+            var video = document.querySelector('video');
+            video.pause();
+        }
+    
+        // Play video function
+        function playVideo() {
+            var video = document.querySelector('video');
+            video.play();
+        }
+    </script>
+    
+</body>
+</html>
